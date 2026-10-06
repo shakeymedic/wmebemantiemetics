@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiemetics in the ED: A Visual Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e293b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .flowchart-node {
+            border: 2px solid #00A0B0;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .flowchart-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            position: relative;
+        }
+        .flowchart-line {
+            height: 100%;
+            width: 3px;
+            background-color: #00A0B0;
+        }
+        .flowchart-arrow::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #00A0B0;
+            margin: 0 auto;
+        }
+        .flowchart-horizontal-connector {
+            position: absolute;
+            top: 50%;
+            height: 3px;
+            background-color: #00A0B0;
+            width: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center" style="color: #00A0B0;">A Clinician's Guide to Antiemetics in the ED</h1>
+            <p class="text-center text-lg mt-2" style="color: #6A4A3C;">Navigating Nausea and Vomiting with an Evidence-Based Approach</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8">
+            
+            <section id="pathways" class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-center" style="color: #CC333F;">Understanding the Vomiting Pathways</h2>
+                <p class="text-center mb-6 text-slate-600">Nausea and vomiting are protective reflexes coordinated by the vomiting centre in the brainstem. This centre receives signals from four main pathways. Effective treatment involves selecting a drug that targets the most likely pathway responsible for the patient's symptoms.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="p-4 rounded-full bg-orange-100 mb-2 text-4xl">🧠</div>
+                        <h3 class="font-bold text-lg" style="color: #EB6841;">Higher Brain Centres</h3>
+                        <p class="text-sm text-slate-500">Triggered by stress, anxiety, or anticipation. Involves GABA and H1 receptors.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="p-4 rounded-full bg-blue-100 mb-2 text-4xl">👂</div>
+                        <h3 class="font-bold text-lg" style="color: #00A0B0;">Vestibular System</h3>
+                        <p class="text-sm text-slate-500">Detects motion and balance changes. Key for vertigo and motion sickness. Involves H1 and muscarinic receptors.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="p-4 rounded-full bg-red-100 mb-2 text-4xl">🧪</div>
+                        <h3 class="font-bold text-lg" style="color: #CC333F;">Chemoreceptor Trigger Zone (CTZ)</h3>
+                        <p class="text-sm text-slate-500">Senses toxins, drugs, and metabolic changes in the blood. Rich in D2 and 5-HT3 receptors.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                         <div class="p-4 rounded-full bg-yellow-100 mb-2 text-4xl">🍋</div>
+                        <h3 class="font-bold text-lg" style="color: #EDC951;">Gastrointestinal Tract</h3>
+                        <p class="text-sm text-slate-500">Vagal nerve afferents respond to irritation or distension. Rich in 5-HT3 receptors.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="mechanisms" class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-center" style="color: #CC333F;">Our Toolkit: How Common ED Antiemetics Work</h2>
+                <p class="text-center mb-6 text-slate-600">Each class of antiemetic targets specific neurotransmitter receptors. Matching the drug's mechanism to the patient's clinical picture is key to successful treatment.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border-l-4 p-4 rounded-r-lg" style="border-color: #00A0B0;">
+                        <h3 class="font-bold text-xl mb-2" style="color: #00A0B0;">Dopamine (D₂) Antagonists</h3>
+                        <p class="font-semibold">Agents: <span class="font-normal">Metoclopramide, Prochlorperazine, Haloperidol, Droperidol</span></p>
+                        <p class="mt-2 text-sm">Primarily block D₂ receptors in the CTZ, making them effective for nausea from metabolic causes, toxins, and migraines.</p>
+                    </div>
+                    <div class="border-l-4 p-4 rounded-r-lg" style="border-color: #EB6841;">
+                        <h3 class="font-bold text-xl mb-2" style="color: #EB6841;">Serotonin (5-HT₃) Antagonists</h3>
+                        <p class="font-semibold">Agents: <span class="font-normal">Ondansetron</span></p>
+                        <p class="mt-2 text-sm">Block 5-HT₃ receptors in the CTZ and on vagal nerve endings in the GI tract. Excellent for gastroenteritis and general undifferentiated nausea.</p>
+                    </div>
+                    <div class="border-l-4 p-4 rounded-r-lg" style="border-color: #EDC951;">
+                        <h3 class="font-bold text-xl mb-2" style="color: #EDC951;">Antihistamines (H₁)</h3>
+                        <p class="font-semibold">Agents: <span class="font-normal">Cyclizine, Promethazine, Dimenhydrinate</span></p>
+                        <p class="mt-2 text-sm">Block H₁ receptors in the vestibular system and vomiting centre. The first-line choice for vertigo. Some, like promethazine, also have weak D₂ antagonist effects.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <section id="effectiveness" class="bg-white rounded-lg shadow-lg p-6 lg:col-span-3">
+                    <h2 class="text-2xl font-bold mb-2 text-center" style="color: #CC333F;">Evidence Check: Preventing the Need for Rescue Medication</h2>
+                    <p class="text-center mb-4 text-slate-600">A key patient-centred outcome is sustained relief, measured by the need for a second 'rescue' antiemetic within 60 minutes. The chart and table below, recreated from the meta-analysis, rank therapies on this outcome.</p>
+                    <div class="chart-container">
+                        <canvas id="effectivenessChart"></canvas>
+                    </div>
+                    <div class="mt-6 overflow-x-auto">
+                        <p class="text-sm text-slate-600 mb-2">An <strong>Odds Ratio (OR) &lt; 1.0</strong> indicates fewer patients needed rescue medication compared to placebo. <strong>SUCRA</strong> represents the probability of that drug being the most effective option.</p>
+                        <table class="w-full text-sm text-left text-slate-500">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3">Therapy</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Odds Ratio (vs Placebo)</th>
+                                    <th scope="col" class="px-4 py-3 text-center">SUCRA (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Droperidol</th>
+                                    <td class="px-4 py-3 text-center">0.22</td>
+                                    <td class="px-4 py-3 text-center">92</td>
+                                </tr>
+                                <tr class="bg-slate-50 border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Haloperidol</th>
+                                    <td class="px-4 py-3 text-center">0.26</td>
+                                    <td class="px-4 py-3 text-center">81</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Ondansetron</th>
+                                    <td class="px-4 py-3 text-center">0.38</td>
+                                    <td class="px-4 py-3 text-center">78</td>
+                                </tr>
+                                <tr class="bg-slate-50 border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Prochlorperazine</th>
+                                    <td class="px-4 py-3 text-center">0.44</td>
+                                    <td class="px-4 py-3 text-center">65</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Metoclopramide</th>
+                                    <td class="px-4 py-3 text-center">0.54</td>
+                                    <td class="px-4 py-3 text-center">58</td>
+                                </tr>
+                                <tr class="bg-slate-50 border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Promethazine</th>
+                                    <td class="px-4 py-3 text-center">0.60</td>
+                                    <td class="px-4 py-3 text-center">50</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Cyclizine</th>
+                                    <td class="px-4 py-3 text-center">0.70</td>
+                                    <td class="px-4 py-3 text-center">45</td>
+                                </tr>
+                                 <tr class="bg-slate-50 border-b">
+                                    <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">Dimenhydrinate</th>
+                                    <td class="px-4 py-3 text-center">0.75</td>
+                                    <td class="px-4 py-3 text-center">40</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="safety" class="bg-white rounded-lg shadow-lg p-6 lg:col-span-2">
+                    <h2 class="text-2xl font-bold mb-4 text-center" style="color: #CC333F;">Safety First: Key Adverse Effects</h2>
+                     <p class="text-center mb-6 text-slate-600">Effectiveness must be balanced with the potential for adverse effects. Consider these when selecting an agent.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start p-4 rounded-lg bg-red-50 border border-red-200">
+                            <span class="text-3xl mr-4">🏃‍♂️</span>
+                            <div>
+                                <h3 class="font-bold text-lg" style="color: #CC333F;">Akathisia & Dystonia</h3>
+                                <p class="text-sm">Distressing restlessness or muscle spasms. A key risk for D₂ antagonists.</p>
+                                <p class="font-semibold mt-1 text-sm">High Risk: <span class="font-normal">Metoclopramide, Prochlorperazine</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 rounded-lg bg-blue-50 border border-blue-200">
+                           <span class="text-3xl mr-4">❤️</span>
+                            <div>
+                                <h3 class="font-bold text-lg" style="color: #00A0B0;">QTc Prolongation</h3>
+                                <p class="text-sm">Can increase arrhythmia risk. Dose-dependent concern for several agents.</p>
+                                <p class="font-semibold mt-1 text-sm">High Risk: <span class="font-normal">Droperidol, Haloperidol, Ondansetron (high doses)</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 rounded-lg bg-yellow-50 border border-yellow-200">
+                            <span class="text-3xl mr-4">😴</span>
+                            <div>
+                                <h3 class="font-bold text-lg" style="color: #EDC951;">Sedation</h3>
+                                <p class="text-sm">Can be significant and may impair safe discharge. A hallmark of antihistamines.</p>
+                                <p class="font-semibold mt-1 text-sm">High Risk: <span class="font-normal">Cyclizine, Promethazine, Dimenhydrinate</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <section id="decision" class="bg-white rounded-lg shadow-lg p-6 md:col-span-1">
+                <h2 class="text-2xl font-bold mb-4 text-center" style="color: #CC333F;">The Clinical Decision Pathway</h2>
+                <p class="text-center mb-6 text-slate-600">This pathway integrates efficacy, safety, and likely cause to guide antiemetic selection. Always consider patient factors, comorbidities, and other medications.</p>
+
+                <div class="flex flex-col items-center">
+                    <div class="flowchart-node w-full md:w-1/2">
+                        <h3 class="font-bold">Patient Presents with Nausea/Vomiting</h3>
+                    </div>
+
+                    <div class="flowchart-connector">
+                        <div class="flowchart-line"></div>
+                        <div class="flowchart-arrow"></div>
+                    </div>
+
+                    <div class="flowchart-node w-full md:w-3/4" style="background-color: #f0f4f8; border-color: #EB6841;">
+                        <h3 class="font-bold" style="color: #EB6841;">Assess Likely Cause & Patient Factors</h3>
+                        <p class="text-sm">Consider history, examination findings, and red flags.</p>
+                    </div>
+
+                    <div class="w-full relative mt-8">
+                         <div class="flowchart-horizontal-connector hidden md:block"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-8">
+                            
+                            <div class="flex flex-col items-center">
+                               <div class="flowchart-node w-full h-full flex flex-col justify-center">
+                                    <h4 class="font-semibold text-blue-600">Undifferentiated Nausea</h4>
+                                    <p class="text-xs mt-1 mb-2">Most common presentation</p>
+                                    <div class="bg-blue-100 text-blue-800 p-2 rounded text-sm"><strong>1st Line:</strong> Ondansetron</div>
+                                    <div class="mt-2 bg-gray-100 text-gray-700 p-2 rounded text-sm"><strong>2nd Line:</strong> Metoclopramide</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-center">
+                                <div class="flowchart-node w-full h-full flex flex-col justify-center">
+                                    <h4 class="font-semibold text-green-600">Vestibular Cause</h4>
+                                    <p class="text-xs mt-1 mb-2">Vertigo, labyrinthitis</p>
+                                    <div class="bg-green-100 text-green-800 p-2 rounded text-sm"><strong>1st Line:</strong> Cyclizine</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-center">
+                               <div class="flowchart-node w-full h-full flex flex-col justify-center">
+                                    <h4 class="font-semibold text-purple-600">Migraine</h4>
+                                    <p class="text-xs mt-1 mb-2">Headache + Nausea</p>
+                                    <div class="bg-purple-100 text-purple-800 p-2 rounded text-sm"><strong>1st Line:</strong> Metoclopramide or Prochlorperazine</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-center">
+                               <div class="flowchart-node w-full h-full flex flex-col justify-center">
+                                    <h4 class="font-semibold text-red-600">Refractory / Severe</h4>
+                                    <p class="text-xs mt-1 mb-2">Failed first-line therapy</p>
+                                    <div class="bg-red-100 text-red-800 p-2 rounded text-sm"><strong>Consider:</strong> Droperidol or Haloperidol (low dose)</div>
+                                     <p class="text-xs mt-1">Monitor QTc</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-white mt-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p>This infographic is for educational purposes and should not replace clinical judgment. Data synthesised from recent meta-analyses and UK clinical guidelines.</p>
+            <p class="mt-1">Designed as a single-page application using HTML, Tailwind CSS, and Chart.js. No SVG or Mermaid.js were used in this document.</p>
+        </div>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('effectivenessChart').getContext('2d');
+        const effectivenessChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Droperidol', 'Haloperidol', 'Ondansetron', 'Prochlorperazine', 'Metoclopramide', 'Promethazine', 'Cyclizine', 'Dimenhydrinate'],
+                datasets: [{
+                    label: 'Probability of Being the Best Therapy (%)',
+                    data: [92, 81, 78, 65, 58, 50, 45, 40],
+                    backgroundColor: [
+                        '#CC333F',
+                        '#EB6841',
+                        '#00A0B0',
+                        '#EDC951',
+                        '#6A4A3C',
+                        '#4F646A',
+                        '#A7A9AC',
+                        '#7D8A8B'
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Probability (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Probability of Being the Best Therapy for Preventing Need for Rescue Antiemetic at 60 Minutes',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+
